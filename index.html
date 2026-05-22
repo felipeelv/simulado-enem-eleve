@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulado ENEM ELEVE — Inscrição</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* Neue Montreal — fonte institucional do Colégio ELEVE */
+    @font-face {
+      font-family: "Neue Montreal";
+      src: url("fonts/NeueMontreal-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Neue Montreal";
+      src: url("fonts/NeueMontreal-Medium.woff2") format("woff2");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Neue Montreal";
+      src: url("fonts/NeueMontreal-Bold.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <style>
+    :root {
+      --eleve-orange: #FF6F3D;
+      --eleve-orange-light: #FFB09A;
+      --eleve-orange-dark: #D94E1F;
+      --eleve-teal: #1AC2C2;
+      --eleve-teal-light: #7DE8E8;
+      --eleve-teal-dark: #0F9494;
+      --eleve-purple: #8A2BE2;
+      --eleve-gray: #848484;
+      --eleve-gray-light: #F0F0F0;
+      --eleve-gray-dark: #4A4A4A;
+      --eleve-dark: #2D2D2D;
+      --eleve-light: #F8F9FA;
+      --eleve-white: #FFFFFF;
+
+      --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.08);
+      --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.14);
+      --shadow-btn: 0 4px 14px rgba(255, 111, 61, 0.35);
+      --shadow-btn-teal: 0 4px 14px rgba(26, 194, 194, 0.35);
+
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Neue Montreal", "DM Sans", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--eleve-gray);
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      background-color: #0e1430;
+      background-image: url("fundo2.jpg");
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      position: relative;
+    }
+
+    /* Véu fixo sobre o background pra manter texto legível em todas as seções */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(14, 20, 48, 0.20) 0%, rgba(14, 20, 48, 0.45) 100%);
+    }
+
+    body > * { position: relative; z-index: 1; }
+
+    /* iOS Safari: fallback pra evitar bug de background-attachment fixed */
+    @media (max-width: 768px) {
+      body {
+        background-attachment: scroll;
+      }
+    }
+
+    a { color: inherit; }
+    h1, h2, h3, h4 { color: var(--eleve-dark); }
+
+    .container {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    /* ─────────── Topbar ─────────── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--eleve-gray-light);
+    }
+
+    .nav {
+      padding: 16px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .brand img {
+      height: 34px;
+      width: auto;
+      display: block;
+    }
+
+    .brand-tag {
+      display: none;
+      padding-left: 14px;
+      border-left: 1px solid var(--eleve-gray-light);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--eleve-gray);
+      letter-spacing: 0.01em;
+    }
+
+    @media (min-width: 720px) {
+      .brand-tag { display: block; }
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* ─────────── Botões ─────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border: 0;
+      border-radius: 999px;
+      font: inherit;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .3s ease, background .3s ease, box-shadow .3s ease, color .3s ease, border-color .3s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover { transform: scale(1.05); }
+    .btn:focus-visible { outline: 3px solid rgba(26, 194, 194, 0.35); outline-offset: 2px; }
+
+    .btn-primary {
+      background: var(--eleve-orange);
+      color: var(--eleve-white);
+      box-shadow: var(--shadow-btn);
+    }
+    .btn-primary:hover { background: var(--eleve-orange-dark); }
+
+    .btn-teal {
+      background: var(--eleve-teal);
+      color: var(--eleve-white);
+      box-shadow: var(--shadow-btn-teal);
+    }
+    .btn-teal:hover { background: var(--eleve-teal-dark); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--eleve-teal-dark);
+      border: 2px solid var(--eleve-teal);
+    }
+    .btn-outline:hover {
+      background: var(--eleve-teal);
+      color: var(--eleve-white);
+    }
+
+    .btn-lg { padding: 16px 32px; font-size: 16px; }
+
+    /* ─────────── Hero ─────────── */
+    .hero {
+      position: relative;
+      padding: 56px 0 40px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.92);
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 32px;
+      align-items: stretch;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8px 0;
+      color: var(--eleve-white);
+    }
+
+    .hero-text {
+      align-self: flex-start;
+      max-width: 620px;
+      padding: 28px 32px;
+      background: rgba(14, 20, 48, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 42px rgba(0, 0, 0, 0.25);
+    }
+
+    .hero h1 { color: var(--eleve-white); }
+    .hero .subtitle { color: rgba(255, 255, 255, 0.92); }
+
+    @media (max-width: 560px) {
+      .hero-text { padding: 22px 22px; }
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      align-self: flex-start;
+      padding: 8px 14px;
+      background: rgba(255, 111, 61, 0.18);
+      color: var(--eleve-orange);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 111, 61, 0.45);
+      margin-bottom: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--eleve-orange);
+      box-shadow: 0 0 0 4px rgba(255, 111, 61, 0.18);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(40px, 5.4vw, 64px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      font-weight: 700;
+    }
+
+    h1 .accent {
+      background: linear-gradient(90deg, var(--eleve-orange), var(--eleve-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      margin: 22px 0 0;
+      max-width: 560px;
+      font-size: clamp(16px, 1.4vw, 18px);
+      color: var(--eleve-gray);
+      line-height: 1.6;
+    }
+
+    .hero-meta {
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .meta-item {
+      background: rgba(255, 255, 255, 0.10);
+      padding: 16px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(10px);
+      transition: transform .3s ease, background .3s ease, border-color .3s ease;
+    }
+
+    .meta-item:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .meta-item .meta-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.78);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .meta-item .meta-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--eleve-white);
+      letter-spacing: -0.02em;
+    }
+
+    .meta-item.is-deadline {
+      border-color: rgba(255, 111, 61, 0.55);
+      background: rgba(255, 111, 61, 0.18);
+    }
+    .meta-item.is-deadline .meta-label { color: rgba(255, 200, 175, 0.95); }
+    .meta-item.is-deadline .meta-value { color: var(--eleve-white); }
+
+    /* ─────────── Form (signup card) ─────────── */
+    .signup-card {
+      background: var(--eleve-white);
+      border: 1px solid var(--eleve-gray-light);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      box-shadow: var(--shadow-card-hover);
+      position: relative;
+    }
+
+    .signup-card::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: var(--radius-xl);
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255, 111, 61, 0.25), rgba(26, 194, 194, 0.25));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .signup-card h2 {
+      margin: 0 0 6px;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--eleve-dark);
+      text-shadow: none;
+    }
+
+    .signup-card .lead {
+      margin: 0 0 22px;
+      color: var(--eleve-gray);
+      font-size: 14px;
+    }
+
+    form { display: grid; gap: 14px; }
+
+    .field { display: grid; gap: 7px; }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--eleve-dark);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1.5px solid var(--eleve-gray-light);
+      border-radius: var(--radius);
+      background: var(--eleve-white);
+      color: var(--eleve-dark);
+      font: inherit;
+      font-size: 15px;
+      outline: none;
+      transition: border .2s ease, box-shadow .2s ease;
+    }
+
+    textarea { min-height: 88px; resize: vertical; }
+
+    input::placeholder, textarea::placeholder { color: #b8b8b8; }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--eleve-teal);
+      box-shadow: 0 0 0 4px rgba(26, 194, 194, 0.15);
+    }
+
+    .two-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .checkbox {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      background: var(--eleve-light);
+      border: 1px solid var(--eleve-gray-light);
+      border-radius: var(--radius);
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .segmented input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .segmented label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--eleve-gray-light);
+      border-radius: var(--radius);
+      background: var(--eleve-white);
+      color: var(--eleve-gray-dark);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
+    }
+
+    .segmented label:hover { border-color: var(--eleve-teal-light); }
+
+    .segmented input[type="radio"]:checked + label {
+      border-color: var(--eleve-teal);
+      background: rgba(26, 194, 194, 0.08);
+      color: var(--eleve-teal-dark);
+      box-shadow: 0 0 0 4px rgba(26, 194, 194, 0.10);
+    }
+
+    .segmented input[type="radio"]:focus-visible + label {
+      outline: 3px solid rgba(26, 194, 194, 0.35);
+      outline-offset: 2px;
+    }
+
+    .checkbox input {
+      width: 18px; height: 18px; margin-top: 2px;
+      accent-color: var(--eleve-orange);
+    }
+
+    .checkbox label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--eleve-gray-dark);
+      line-height: 1.5;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    .form-message {
+      display: none;
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .form-message.success {
+      display: block;
+      background: rgba(26, 194, 194, 0.10);
+      color: var(--eleve-teal-dark);
+      border: 1px solid var(--eleve-teal-light);
+    }
+
+    .form-message.error {
+      display: block;
+      background: rgba(255, 111, 61, 0.10);
+      color: var(--eleve-orange-dark);
+      border: 1px solid var(--eleve-orange-light);
+    }
+
+    /* ─────────── Sections ─────────── */
+    .section {
+      padding: 40px 0;
+    }
+
+    .section--alt {
+      background: transparent;
+    }
+
+    .section--dark {
+      background: var(--eleve-dark);
+      color: rgba(255, 255, 255, 0.82);
+    }
+    .section--dark h2 { color: var(--eleve-white); }
+    .section--dark .section-lead { color: rgba(255, 255, 255, 0.65); }
+
+    .section-head {
+      max-width: 760px;
+      margin: 0 auto 24px;
+      padding: 20px 28px;
+      text-align: center;
+      background: rgba(14, 20, 48, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(8px);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 3.4vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: var(--eleve-white);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.30);
+    }
+
+    h2 .accent { color: var(--eleve-orange); }
+
+    .section-lead {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 16px;
+      line-height: 1.6;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    /* ─────────── Cards ─────────── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .info-card {
+      position: relative;
+      background: rgba(14, 20, 48, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: var(--radius-lg);
+      padding: 28px 28px 30px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+      transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    }
+
+    .info-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 64px;
+      height: 4px;
+      background: var(--eleve-orange);
+      border-radius: 0 0 4px 0;
+    }
+
+    .info-card.is-teal::before { background: var(--eleve-teal); }
+    .info-card.is-purple::before { background: var(--eleve-purple); }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.35);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .info-card h3 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--eleve-white);
+    }
+
+    .info-card p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    /* ─────────── Timeline ─────────── */
+    .timeline {
+      background: var(--eleve-white);
+      border: 1px solid var(--eleve-gray-light);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+
+    .time-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      border-bottom: 1px solid var(--eleve-gray-light);
+      transition: background .3s ease;
+    }
+    .time-row:last-child { border-bottom: 0; }
+    .time-row:hover { background: var(--eleve-light); }
+
+    .time {
+      padding: 22px 24px;
+      font-weight: 700;
+      color: var(--eleve-orange);
+      background: rgba(255, 111, 61, 0.04);
+      border-right: 1px solid var(--eleve-gray-light);
+      font-size: 17px;
+      letter-spacing: -0.01em;
+    }
+
+    .event {
+      padding: 22px 24px;
+      color: var(--eleve-dark);
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    .event small {
+      display: block;
+      color: var(--eleve-gray);
+      font-weight: 400;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .highlight {
+      margin-top: 20px;
+      background: var(--eleve-teal-dark);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-lg);
+      padding: 22px 26px;
+      color: var(--eleve-white);
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      box-shadow: 0 8px 24px rgba(15, 148, 148, 0.35);
+    }
+
+    .highlight svg { flex-shrink: 0; margin-top: 1px; color: var(--eleve-white); }
+    .highlight strong { color: var(--eleve-white); font-weight: 800; }
+
+    /* ─────────── Table ─────────── */
+    .table-wrap {
+      background: var(--eleve-white);
+      border: 1px solid var(--eleve-gray-light);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+
+    .table-wrap--scroll { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 560px;
+    }
+
+    th, td {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--eleve-gray-light);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      background: var(--eleve-light);
+      color: var(--eleve-dark);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    td { color: var(--eleve-gray-dark); font-size: 17px; }
+    td strong { color: var(--eleve-dark); }
+    tr:last-child td { border-bottom: 0; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .pill-easy   { background: rgba(26, 194, 194, 0.12);  color: var(--eleve-teal-dark); }
+    .pill-medium { background: rgba(255, 111, 61, 0.12);  color: var(--eleve-orange-dark); }
+    .pill-hard   { background: rgba(138, 43, 226, 0.12);  color: var(--eleve-purple); }
+
+    /* ─────────── Regras (3 cards) ─────────── */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .rule-card {
+      background: var(--eleve-white);
+      border: 1px solid var(--eleve-gray-light);
+      border-top: 4px solid;
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-card);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .rule-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card-hover);
+    }
+
+    .rule-card--ok { border-top-color: var(--eleve-teal); }
+    .rule-card--mid { border-top-color: var(--eleve-orange); }
+    .rule-card--no { border-top-color: var(--eleve-purple); }
+
+    .rule-card h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      font-size: 21px;
+      font-weight: 700;
+    }
+
+    .rule-card ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .rule-card li {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 10px;
+      font-size: 17px;
+      color: var(--eleve-gray-dark);
+      line-height: 1.5;
+    }
+
+    .rule-card li svg {
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    /* ─────────── CTA final ─────────── */
+    .cta-card {
+      background: linear-gradient(135deg, var(--eleve-dark) 0%, #1a1a1a 100%);
+      border-radius: var(--radius-xl);
+      padding: 64px 48px;
+      text-align: center;
+      color: var(--eleve-white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-card::before {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 111, 61, 0.25), transparent 60%);
+      top: -120px;
+      right: -80px;
+    }
+    .cta-card::after {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26, 194, 194, 0.20), transparent 60%);
+      bottom: -100px;
+      left: -60px;
+    }
+
+    .cta-card h2 {
+      color: var(--eleve-white);
+      font-size: clamp(28px, 3.6vw, 38px);
+      max-width: 640px;
+      margin: 0 auto 14px;
+      position: relative;
+    }
+
+    .cta-card p {
+      max-width: 540px;
+      margin: 0 auto 28px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 16px;
+      position: relative;
+    }
+
+    .cta-card .btn {
+      position: relative;
+    }
+
+    /* ─────────── Footer ─────────── */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(14, 20, 48, 0.55);
+      backdrop-filter: blur(10px);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 14px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-brand img {
+      height: 28px;
+      width: auto;
+      filter: invert(1) brightness(1.2);
+      opacity: 0.85;
+    }
+
+    /* ─────────── Responsive ─────────── */
+    @media (max-width: 960px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-meta { grid-template-columns: repeat(2, 1fr); }
+      .cards-grid, .rules-grid { grid-template-columns: 1fr; }
+      .section { padding: 32px 0; }
+      .cta-card { padding: 48px 28px; }
+    }
+
+    @media (max-width: 560px) {
+      .nav-actions .btn-outline { display: none; }
+      .hero { padding: 40px 0 28px; }
+      .signup-card { padding: 22px; }
+      .two-cols { grid-template-columns: 1fr; }
+      .time-row { grid-template-columns: 1fr; }
+      .time { border-right: 0; border-bottom: 1px solid var(--eleve-gray-light); padding: 14px 20px; }
+      .event { padding: 14px 20px; }
+      .hero-meta { grid-template-columns: 1fr 1fr; }
+      .brand img { height: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#" aria-label="Colégio ELEVE">
+        <img src="logo-eleve-wordmark.png" alt="Colégio ELEVE" />
+      </a>
+      <div class="nav-actions">
+        <a class="btn btn-outline" href="#informacoes">Informações</a>
+        <a class="btn btn-primary" href="#inscricao">Fazer inscrição</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ─────────── HERO ─────────── -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-text">
+            <span class="eyebrow">Inscrições abertas</span>
+            <h1>Simulado <span class="accent">ELEVE</span></h1>
+            <p class="subtitle">
+              Prova para alunos do 9º ano, 1ª e 2ª séries do Ensino Médio. Estrutura adaptada ao formato ENEM, realizada em um único dia no período da manhã — para treinar gestão de tempo, identificar pontos a melhorar e elevar a preparação.
+            </p>
+          </div>
+
+          <div class="hero-meta" aria-label="Dados principais do simulado">
+            <div class="meta-item is-deadline">
+              <div class="meta-label">Inscrições até</div>
+              <div class="meta-value">26/05 · 18h</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">Data da prova</div>
+              <div class="meta-value">30/05</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">Abertura</div>
+              <div class="meta-value">07h30</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">Prova</div>
+              <div class="meta-value">08h–13h</div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="signup-card" id="inscricao">
+          <h2>Inscrição</h2>
+          <p class="lead">Preencha os dados abaixo para confirmar sua participação.</p>
+
+          <form id="signupForm">
+            <div class="field">
+              <label for="nome">Nome completo do aluno</label>
+              <input id="nome" name="nome" type="text" autocomplete="name" required />
+            </div>
+
+            <div class="two-cols">
+              <div class="field">
+                <label for="serie">Série</label>
+                <select id="serie" name="serie" required>
+                  <option value="">Selecione</option>
+                  <option>9º ano</option>
+                  <option>1ª série EM</option>
+                  <option>2ª série EM</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="turma">Turma</label>
+                <input id="turma" name="turma" type="text" placeholder="Ex.: A, B, Manhã" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Tipo de carteira</label>
+              <div class="segmented" role="radiogroup" aria-label="Tipo de carteira">
+                <input id="carteira-destro" name="carteira" type="radio" value="Destro" required />
+                <label for="carteira-destro">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/></svg>
+                  Destro
+                </label>
+                <input id="carteira-canhoto" name="carteira" type="radio" value="Canhoto" required />
+                <label for="carteira-canhoto">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: scaleX(-1);"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/></svg>
+                  Canhoto
+                </label>
+              </div>
+            </div>
+
+            <div class="two-cols">
+              <div class="field">
+                <label for="telefone">Telefone/WhatsApp</label>
+                <input id="telefone" name="telefone" type="tel" inputmode="tel" required />
+              </div>
+              <div class="field">
+                <label for="email">E-mail</label>
+                <input id="email" name="email" type="email" autocomplete="email" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="observacao">Observação (opcional)</label>
+              <textarea id="observacao" name="observacao" placeholder="Ex.: necessidade específica, dúvida ou recado para a coordenação"></textarea>
+            </div>
+
+            <div class="checkbox">
+              <input id="politica" name="politica" type="checkbox" required />
+              <label for="politica">Estou ciente de que quem se inscrever e não comparecer no dia da prova não poderá se inscrever no próximo Simulado ENEM.</label>
+            </div>
+
+            <div class="checkbox">
+              <input id="materiais" name="materiais" type="checkbox" required />
+              <label for="materiais">Estou ciente dos materiais obrigatórios e das regras do dia da prova.</label>
+            </div>
+
+            <button class="btn btn-primary btn-lg submit-btn" type="submit">Confirmar inscrição</button>
+            <div id="formMessage" class="form-message" role="status" aria-live="polite"></div>
+          </form>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ─────────── INFORMAÇÕES PRINCIPAIS ─────────── -->
+    <section class="section section--alt" id="informacoes">
+      <div class="container">
+        <div class="section-head">
+          <h2>Informações <span class="accent">principais</span></h2>
+          <p class="section-lead">Antes de se inscrever, confirme se você está dentro dos critérios e tem disponibilidade para o dia da prova.</p>
+        </div>
+
+        <div class="cards-grid">
+          <article class="info-card">
+            <h3>Objetivo</h3>
+            <p>Testar conhecimentos, treinar gestão do tempo e identificar pontos de melhoria na preparação dos alunos para o ENEM.</p>
+          </article>
+          <article class="info-card is-teal">
+            <h3>Participantes</h3>
+            <p>Alunos do 9º ano, 1ª série e 2ª série do Ensino Médio do Colégio ELEVE.</p>
+          </article>
+          <article class="info-card is-purple">
+            <h3>Vagas</h3>
+            <p>Limitadas por sala. Só se inscreva tendo certeza de que poderá participar — quem faltar fica de fora do próximo simulado.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── CRONOGRAMA DO DIA ─────────── -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Como será o <span class="accent">dia da prova</span></h2>
+          <p class="section-lead">Realização em um único turno, no período da manhã, com 15 minutos de intervalo.</p>
+        </div>
+
+        <div class="timeline">
+          <div class="time-row"><div class="time">07h30</div><div class="event">Abertura dos portões<small>Chegue com calma e folga no tempo.</small></div></div>
+          <div class="time-row"><div class="time">08h00</div><div class="event">Fechamento dos portões e início pontual da prova<small>Após este horário, não será permitido entrar.</small></div></div>
+          <div class="time-row"><div class="time">08h00 – 10h30</div><div class="event"><strong>Bloco 1</strong> — Linguagens, Ciências Humanas e Redação</div></div>
+          <div class="time-row"><div class="time">10h30 – 10h45</div><div class="event">Intervalo de 15 minutos</div></div>
+          <div class="time-row"><div class="time">10h45 – 13h00</div><div class="event"><strong>Bloco 2</strong> — Ciências da Natureza e Matemática</div></div>
+          <div class="time-row"><div class="time">13h00</div><div class="event">Encerramento oficial e entrega do caderno</div></div>
+        </div>
+
+        <div class="highlight">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span><strong>Saída antecipada:</strong> Bloco 1 a partir das 10h, Bloco 2 a partir das 12h30. Em ambos os casos, o caderno deve permanecer na sala.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── ESTRUTURA DA PROVA + AVALIAÇÃO ─────────── -->
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section-head">
+          <h2>Estrutura da <span class="accent">prova</span></h2>
+          <p class="section-lead">São 80 questões objetivas (20 por área) + redação dissertativo-argumentativa. Os pesos variam por nível de dificuldade.</p>
+        </div>
+
+        <div class="table-wrap table-wrap--scroll" style="margin-bottom: 24px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Bloco</th>
+                <th>Áreas</th>
+                <th>Questões</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Bloco 1</strong></td>
+                <td>Linguagens e Códigos · Ciências Humanas · Redação</td>
+                <td>40 questões + Redação</td>
+              </tr>
+              <tr>
+                <td><strong>Bloco 2</strong></td>
+                <td>Ciências da Natureza · Matemática</td>
+                <td>40 questões</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrap table-wrap--scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Nível</th>
+                <th>Peso</th>
+                <th>O que exige</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="pill pill-easy">Fácil</span></td>
+                <td><strong>1,0 ponto</strong></td>
+                <td>Reconhecimento e memória</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-medium">Médio</span></td>
+                <td><strong>1,5 ponto</strong></td>
+                <td>Interpretação e aplicação</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-hard">Difícil</span></td>
+                <td><strong>2,0 pontos</strong></td>
+                <td>Análise crítica e raciocínio</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="section-lead" style="margin-top: 18px; text-align: center;">
+          A nota final de cada área será convertida para a escala de <strong style="color: var(--eleve-dark);">0 a 1000</strong>. A nota geral será a média das quatro áreas.
+        </p>
+      </div>
+    </section>
+
+    <!-- ─────────── O QUE LEVAR ─────────── -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>O que <span class="accent">levar</span> no dia</h2>
+          <p class="section-lead">Confira a lista antes de sair de casa. O cumprimento das regras é parte da experiência ENEM real.</p>
+        </div>
+
+        <div class="rules-grid">
+          <article class="rule-card rule-card--ok">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1AC2C2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Obrigatório
+            </h3>
+            <ul>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1AC2C2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Documento de identificação com foto</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1AC2C2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Caneta esferográfica preta (para redação e gabarito)</li>
+            </ul>
+          </article>
+
+          <article class="rule-card rule-card--mid">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF6F3D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Permitido
+            </h3>
+            <ul>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6F3D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>Lápis e borracha (somente para rascunho)</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6F3D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>Água e lanche pequeno para o intervalo</li>
+            </ul>
+          </article>
+
+          <article class="rule-card rule-card--no">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8A2BE2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              Não é permitido
+            </h3>
+            <ul>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A2BE2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Celular ou qualquer dispositivo eletrônico</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A2BE2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Calculadora</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A2BE2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Consulta a qualquer material externo durante a prova</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── CTA FINAL ─────────── -->
+    <section class="section">
+      <div class="container">
+        <div class="cta-card">
+          <h2>Pronto para <span style="color: var(--eleve-orange);">elevar</span> sua preparação?</h2>
+          <p>As vagas são limitadas por sala. Garanta sua inscrição até 26 de maio, quinta-feira, às 18h.</p>
+          <a href="#inscricao" class="btn btn-primary btn-lg">
+            Quero me inscrever
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="logo-eleve-wordmark.png" alt="Colégio ELEVE" />
+        <span>Coordenação Pedagógica Geral</span>
+      </div>
+      <div>Qualquer dúvida, procure a Coordenação Pedagógica.</div>
+    </div>
+  </footer>
+
+  <script>
+    const GOOGLE_SCRIPT_URL = "COLE_AQUI_A_URL_DO_GOOGLE_APPS_SCRIPT";
+
+    const form = document.getElementById("signupForm");
+    const message = document.getElementById("formMessage");
+
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = `form-message ${type}`;
+    }
+
+    function setLoading(isLoading) {
+      const button = form.querySelector('button[type="submit"]');
+      button.disabled = isLoading;
+      button.textContent = isLoading ? "Enviando..." : "Confirmar inscrição";
+    }
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+
+      if (!payload.politica || !payload.materiais) {
+        showMessage("Marque as confirmações obrigatórias para concluir a inscrição.", "error");
+        return;
+      }
+
+      if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("COLE_AQUI")) {
+        showMessage("Configuração pendente: cole a URL do Google Apps Script no código da página.", "error");
+        return;
+      }
+
+      setLoading(true);
+      showMessage("", "");
+
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            dataCadastro: new Date().toLocaleString("pt-BR"),
+            nome: payload.nome,
+            serie: payload.serie,
+            turma: payload.turma,
+            carteira: payload.carteira,
+            telefone: payload.telefone,
+            email: payload.email,
+            observacao: payload.observacao || "",
+            politicaFrequencia: payload.politica === "on" ? "Sim" : "Não",
+            cienciaMateriais: payload.materiais === "on" ? "Sim" : "Não"
+          })
+        });
+
+        form.reset();
+        showMessage("Inscrição enviada com sucesso. Boa prova!", "success");
+      } catch (error) {
+        showMessage("Não foi possível enviar a inscrição. Tente novamente ou procure a Coordenação Pedagógica.", "error");
+      } finally {
+        setLoading(false);
+      }
+    });
+  </script>
+</body>
+</html>
