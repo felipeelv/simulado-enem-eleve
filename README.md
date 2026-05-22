@@ -2,9 +2,13 @@
 
 Landing page estática para inscrição no Simulado ENEM Adaptado do Colégio ELEVE. Formulário grava direto em Google Sheets via Apps Script.
 
+**🌐 Produção:** https://simulado.colegioeleve.com
+**🔄 Mirror Vercel:** https://simulado-enem-eleve.vercel.app
+
 ## Stack
 
 - HTML/CSS/JS puros (sem framework, sem build)
+- Background em CSS puro (gradient multi-camada com as cores da marca)
 - Fonte institucional **Neue Montreal** servida localmente (woff2)
 - Fallback Google Fonts (DM Sans)
 - Deploy Vercel (estático)
@@ -17,25 +21,25 @@ Landing page estática para inscrição no Simulado ENEM Adaptado do Colégio EL
 ├── index.html                  # página única
 ├── vercel.json                 # config de deploy + cache headers
 ├── favicon.ico
-├── fundo2.jpg                  # background fixo da página
 ├── logo-eleve-wordmark.png     # logo institucional
 ├── fonts/
 │   ├── NeueMontreal-Regular.woff2
 │   ├── NeueMontreal-Medium.woff2
 │   └── NeueMontreal-Bold.woff2
-└── google-apps-script.gs       # script pra colar no Apps Script
+├── google-apps-script.gs       # script pra colar no Apps Script
+└── README.md
 ```
 
 ## Setup do backend (Google Sheets)
 
-1. Crie um Google Sheets novo: **Inscrições Simulado ENEM ELEVE**
-2. Em `Extensões → Apps Script`, cole o conteúdo de [`google-apps-script.gs`](google-apps-script.gs)
-3. Salve, depois `Deploy → New deployment`:
+1. Cria um Google Sheets novo: **Inscrições Simulado ENEM ELEVE**
+2. Em `Extensões → Apps Script`, cola o conteúdo de [`google-apps-script.gs`](google-apps-script.gs)
+3. Salva, depois `Deploy → New deployment`:
    - Type: **Web app**
    - Execute as: **Me**
    - Who has access: **Anyone**
-4. Copie a URL gerada (termina em `/exec`)
-5. Em `index.html`, substitua a constante `GOOGLE_SCRIPT_URL`:
+4. Copia a URL gerada (termina em `/exec`)
+5. Em `index.html`, substitui a constante `GOOGLE_SCRIPT_URL`:
    ```js
    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/SEU_ID/exec";
    ```
@@ -43,11 +47,11 @@ Landing page estática para inscrição no Simulado ENEM Adaptado do Colégio EL
 
 ## Deploy local
 
-Não tem build. Pra testar localmente:
+Sem build. Pra testar localmente:
 
 ```bash
 npx serve -l 4173 .
-# abra http://localhost:4173
+# abre http://localhost:4173
 ```
 
 ## Deploy Vercel
@@ -58,22 +62,41 @@ Conectado ao repositório GitHub — push em `main` publica automático. Para de
 npx vercel --prod
 ```
 
+### Domínio
+
+- **Produção:** `simulado.colegioeleve.com` (CNAME na Cloudflare → `cname.vercel-dns.com`)
+- O zone DNS de `colegioeleve.com` é gerenciado na Cloudflare (nameservers `donald.ns.cloudflare.com` / `kara.ns.cloudflare.com`), embora o domínio em si esteja registrado no Hostinger.
+
 ## Campos coletados pelo formulário
 
-| Campo | Tipo |
-|---|---|
-| Nome | text |
-| Série | select (9º / 1ª EM / 2ª EM) |
-| Turma | text |
-| Tipo de carteira | radio (Destro / Canhoto) |
-| Telefone/WhatsApp | tel |
-| E-mail | email |
-| Observação | textarea (opcional) |
-| Política de frequência | checkbox (obrigatório) |
-| Ciência dos materiais | checkbox (obrigatório) |
+| Campo | Tipo | Obrigatório |
+|---|---|---|
+| Nome completo | text | sim |
+| Série | select (9º ano / 1ª EM / 2ª EM) | sim |
+| Turma | text | sim |
+| Tipo de carteira | radio (Destro / Canhoto) | sim |
+| Telefone/WhatsApp | tel | sim |
+| E-mail | email | sim |
+| Observação | textarea | não |
+| Política de frequência | checkbox | sim |
+| Ciência dos materiais | checkbox | sim |
 
-Cada submit grava uma linha na aba **Inscrições** do Sheets com data/hora local.
+Cada submit grava uma linha na aba **Inscrições** do Sheets vinculado, com data/hora local em pt-BR.
 
 ## Identidade visual
 
-Segue o [Style Guide do Colégio ELEVE](https://github.com/felipeelv) — paleta laranja `#FF6F3D`, teal `#1AC2C2`, navy `#2D2D2D`, fonte Neue Montreal.
+Segue o style guide do Colégio ELEVE:
+
+| Token | Hex | Uso |
+|---|---|---|
+| `eleve-orange` | `#FF6F3D` | CTAs primários, eyebrow, acentos |
+| `eleve-teal` | `#1AC2C2` | CTAs secundários, callouts |
+| `eleve-purple` | `#8A2BE2` | Apenas em gradientes de texto (regra do guia) |
+| `eleve-dark` | `#2D2D2D` | Texto sobre claro |
+| `eleve-light` | `#F8F9FA` | Backgrounds claros |
+
+Fonte: **Neue Montreal** (Regular 400 / Medium 500 / Bold 700) em woff2 subset Latino.
+
+## Histórico
+
+- 2026-05-22: Lançamento inicial. Setup completo: Vercel + GitHub + Apps Script + domínio `simulado.colegioeleve.com`.
